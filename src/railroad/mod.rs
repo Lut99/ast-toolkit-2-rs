@@ -4,7 +4,7 @@
 //  Created:
 //    05 Mar 2025, 17:31:22
 //  Last edited:
-//    05 Mar 2025, 18:31:36
+//    05 Mar 2025, 18:32:29
 //  Auto updated?
 //    Yes
 //
@@ -30,6 +30,7 @@ pub struct Diagram<'n> {
     /// A list of additional nonterminals to render.
     nonterms: Vec<railroad::LabeledBox<Box<dyn 'n + railroad::Node>, railroad::Comment>>,
 }
+
 // Constructors
 impl<'n> Default for Diagram<'n> {
     #[inline]
