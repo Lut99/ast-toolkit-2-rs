@@ -1,0 +1,40 @@
+[package]
+name = "ast-toolkit-2"
+version = "0.1.0"
+edition = "2024"
+authors = ["Lut99"]
+license.workspace = true
+repository.workspace = true
+description = "Collection of libraries for working with compilers in Rust."
+
+[workspace.package]
+repository = "https://github.com/Lut99/ast-toolkit-2-rs"
+license = "Apache-2.0"
+
+
+[dependencies]
+# parser
+chumsky = { version = "0.9", optional = true }
+# report
+ariadne = { version = "0.5", optional = true }
+# railroad
+railroad = { version = "0.3", optional = true }
+# span
+# terms
+# visit
+
+
+[features]
+default = []
+
+parser = ["dep:chumsky"]
+railroad = ["dep:railroad"]
+report = ["dep:ariadne"]
+span = []
+terms = []
+visit = []
+
+
+[workspace]
+resolver = "2"
+members = []
