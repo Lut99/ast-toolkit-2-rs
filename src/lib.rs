@@ -4,7 +4,7 @@
 //  Created:
 //    05 Mar 2025, 17:29:54
 //  Last edited:
-//    05 Mar 2025, 17:54:46
+//    06 Mar 2025, 10:36:24
 //  Auto updated?
 //    Yes
 //
@@ -15,6 +15,8 @@
 // Define the libraries
 #[cfg(feature = "parser")]
 pub mod parser;
+#[cfg(feature = "punctuated")]
+pub mod punctuated;
 #[cfg(feature = "railroad")]
 pub mod railroad;
 #[cfg(feature = "report")]
