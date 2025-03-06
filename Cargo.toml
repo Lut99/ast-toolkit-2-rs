@@ -15,6 +15,7 @@ license = "Apache-2.0"
 [dependencies]
 # parser
 chumsky = { version = "0.9", optional = true }
+# punctuated
 # report
 ariadne = { version = "0.5", optional = true }
 # railroad
@@ -22,17 +23,22 @@ railroad = { version = "0.3", optional = true }
 # span
 # terms
 # visit
+# misc
+parking_lot = { version = "0.12", optional = true }
 
 
 [features]
 default = []
 
 parser = ["dep:chumsky"]
+punctuated = []
 railroad = ["dep:railroad"]
 report = ["dep:ariadne"]
 span = []
 terms = []
 visit = []
+
+parking_lot = ["dep:parking_lot"]
 
 
 [workspace]
