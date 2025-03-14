@@ -4,7 +4,7 @@
 //  Created:
 //    06 Mar 2025, 10:34:44
 //  Last edited:
-//    06 Mar 2025, 10:49:37
+//    06 Mar 2025, 15:24:12
 //  Auto updated?
 //    Yes
 //
@@ -33,12 +33,13 @@ macro_rules! transparent_impl {
     ($type:ty) => {
         impl<T: Railroad> Railroad for $type {
             type Output = <T as Railroad>::Output;
+            type InlineOutput = <T as Railroad>::InlineOutput;
 
             #[inline]
             fn to_railroad_node() -> Self::Output { <T as Railroad>::to_railroad_node() }
 
             #[inline]
-            fn to_railroad_label() -> railroad::NonTerminal { <T as Railroad>::to_railroad_label() }
+            fn to_railroad_node_inline() -> Self::InlineOutput { <T as Railroad>::to_railroad_node_inline() }
 
             #[inline]
             fn to_railroad_diagram() -> Diagram<'static> { <T as Railroad>::to_railroad_diagram() }
@@ -56,12 +57,13 @@ macro_rules! transparent_impl {
     (lifetime $type:ty) => {
         impl<'a, T: Railroad> Railroad for $type {
             type Output = <T as Railroad>::Output;
+            type InlineOutput = <T as Railroad>::InlineOutput;
 
             #[inline]
             fn to_railroad_node() -> Self::Output { <T as Railroad>::to_railroad_node() }
 
             #[inline]
-            fn to_railroad_label() -> railroad::NonTerminal { <T as Railroad>::to_railroad_label() }
+            fn to_railroad_node_inline() -> Self::InlineOutput { <T as Railroad>::to_railroad_node_inline() }
 
             #[inline]
             fn to_railroad_diagram() -> Diagram<'static> { <T as Railroad>::to_railroad_diagram() }
@@ -104,12 +106,13 @@ transparent_impl!(lifetime parking_lot::RwLockWriteGuard<'a, T>);
 // Propagation for `Option` which will add optional tracks.
 impl<T: Railroad> Railroad for Option<T> {
     type Output = railroad::Optional<<T as Railroad>::Output>;
+    type InlineOutput = railroad::Optional<<T as Railroad>::InlineOutput>;
 
     #[inline]
     fn to_railroad_node() -> Self::Output { railroad::Optional::new(<T as Railroad>::to_railroad_node()) }
 
     #[inline]
-    fn to_railroad_label() -> railroad::NonTerminal { <T as Railroad>::to_railroad_label() }
+    fn to_railroad_node_inline() -> Self::InlineOutput { railroad::Optional::new(<T as Railroad>::to_railroad_node_inline()) }
 }
 impl<T: RailroadDelim> RailroadDelim for Option<T> {
     type DelimOutput = railroad::Optional<<T as RailroadDelim>::DelimOutput>;
@@ -125,12 +128,13 @@ impl<T: RailroadDelim> RailroadDelim for Option<T> {
 // Propagation for `Vec` which will repeat something indefinitely.
 impl<T: Railroad> Railroad for Vec<T> {
     type Output = railroad::Repeat<<T as Railroad>::Output, railroad::Empty>;
+    type InlineOutput = railroad::Repeat<<T as Railroad>::InlineOutput, railroad::Empty>;
 
     #[inline]
     fn to_railroad_node() -> Self::Output { railroad::Repeat::new(<T as Railroad>::to_railroad_node(), railroad::Empty) }
 
     #[inline]
-    fn to_railroad_label() -> railroad::NonTerminal { <T as Railroad>::to_railroad_label() }
+    fn to_railroad_node_inline() -> Self::InlineOutput { railroad::Repeat::new(<T as Railroad>::to_railroad_node_inline(), railroad::Empty) }
 }
 impl<T: RailroadDelim> RailroadDelim for Vec<T> {
     type DelimOutput = railroad::Repeat<<T as RailroadDelim>::DelimOutput, railroad::Empty>;
@@ -144,12 +148,13 @@ impl<T: RailroadDelim> RailroadDelim for Vec<T> {
 // Propagation for `HashSet` which will also repeat something indefinitely.
 impl<T: Railroad> Railroad for HashSet<T> {
     type Output = railroad::Repeat<<T as Railroad>::Output, railroad::Empty>;
+    type InlineOutput = railroad::Repeat<<T as Railroad>::InlineOutput, railroad::Empty>;
 
     #[inline]
     fn to_railroad_node() -> Self::Output { railroad::Repeat::new(<T as Railroad>::to_railroad_node(), railroad::Empty) }
 
     #[inline]
-    fn to_railroad_label() -> railroad::NonTerminal { <T as Railroad>::to_railroad_label() }
+    fn to_railroad_node_inline() -> Self::InlineOutput { railroad::Repeat::new(<T as Railroad>::to_railroad_node_inline(), railroad::Empty) }
 }
 impl<T: RailroadDelim> RailroadDelim for HashSet<T> {
     type DelimOutput = railroad::Repeat<<T as RailroadDelim>::DelimOutput, railroad::Empty>;
